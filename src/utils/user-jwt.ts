@@ -19,7 +19,7 @@ const jwtAuth = expressJwt({
   },
   // 设置jwt认证白名单，比如/api/login登录接口不需要拦截
 }).unless({
-  path: ['/', '/login'],
+  path: ['/', '/api/login','/api/register'],
 });
 
 // jwt-token解析
