@@ -4,6 +4,7 @@ import { dbConfig } from '../config';
 //连接mysql
 function connect() {
   const { host, user, password, database } = dbConfig;
+  console.log('***********', dbConfig);
   return mysql.createConnection({
     host,
     user,

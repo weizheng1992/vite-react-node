@@ -4,7 +4,6 @@ import { Request, Response, NextFunction } from 'express';
 import compression from 'compression';
 import routes from '@/routes';
 import cors from 'cors';
-
 const app = express();
 
 // 压缩
