@@ -1,6 +1,20 @@
 version: '3'
 
 services:
+  node_nginx:
+    image: nginx       # 指定服务镜像
+    container_name: node_nginx    # 容器名称
+    restart: always                 # 重启方式
+    ports:                          # 映射端口
+      - "8099:8099"
+    volumes:                        # 挂载数据卷
+      - /home/nginx/conf.d/:/etc/nginx/conf.d
+      - /home/nginx/logs:/var/log/nginx
+    depends_on:                     # 启动顺序
+      - nodejs
+    networks:                       # 加入指定网络
+      - app-network
+
   node_mysql:
     image: mysql
     container_name: node_mysql
@@ -28,8 +42,11 @@ services:
       - node_mysql:node_mysql
     networks:                       # 加入指定网络
       - app-network
-    ports:
-        - '8099:8099'
+
+volumes:
+  certbot-etc:
+  certbot-var:
+
 networks:  # 实现通信
   app-network:
     driver: bridge
