@@ -7,7 +7,7 @@ export type SystemConfig = {
   JWT_EXPIRED: number;
 };
 export const systemConfig: SystemConfig = {
-  PORT: 8003,
+  PORT: 7001,
   CODE_ERROR: 1, // 请求响应失败code码
   CODE_SUCCESS: 0, // 请求响应成功code码
   CODE_TOKEN_EXPIRED: 401, // 授权失败
