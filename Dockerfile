@@ -17,7 +17,7 @@ COPY package.json /home/node-app/node-react/package.json
 RUN yarn install
 
 # 拷贝所有源代码到工作目录
-COPY . /home/node-app/node-react
+COPY . /home/node-app/node-react/
 
 # 暴露容器端口
 EXPOSE 8099
