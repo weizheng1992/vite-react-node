@@ -10,17 +10,23 @@ const { CODE_ERROR, CODE_SUCCESS, PRIVATE_KEY, JWT_EXPIRED } = systemConfig;
 
 export const login = async (req: Request, res: Response) => {
   const user: UserInfo[] = await queryUser(req.body);
+  console.log('user :>> ', user);
+  // if(user.length===0){
+  //   res.json(sendMes(CODE_ERROR, '账户不存在',{}))
+  // }
+  // if()
+  // if(user)
 
   // console.log('用户登录===', user);
-  if (!user || user.length === 0) {
-    res.json({
-      code: CODE_ERROR,
-      msg: '用户名或密码错误',
-      data: null,
-    });
-  } else {
-    userInfoAndToken(req.body, user, res);
-  }
+  // if (!user || user.length === 0) {
+  //   res.json({
+  //     code: CODE_ERROR,
+  //     msg: '用户名或密码错误',
+  //     data: null,
+  //   });
+  // } else {
+  //   userInfoAndToken(req.body, user, res);
+  // }
 };
 
 export const register = async (req: Request, res: Response) => {

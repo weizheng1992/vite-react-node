@@ -2,7 +2,7 @@ import express from 'express';
 import { validateUserLogin, validateUserReg } from '@/middleware/user';
 // import { login, register } from '@/controllers/user';
 import { body } from 'express-validator';
-import { login, register } from '@/services/userService';
+import { login, register } from '@/controllers/userService';
 
 const router = express.Router();
 
