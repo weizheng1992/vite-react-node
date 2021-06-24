@@ -6,7 +6,7 @@ services:
     container_name: node_nginx    # 容器名称
     restart: always                 # 重启方式
     ports:                          # 映射端口
-      - "8003:8003"
+      - "7001:7001"
     volumes:                        # 挂载数据卷
       - /home/nginx/conf.d/:/etc/nginx/conf.d
       - /home/nginx/logs:/var/log/nginx
