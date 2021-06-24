@@ -30,4 +30,4 @@ COPY . /home/node-app/node-react
 EXPOSE 7001
 
 # 启动node应用
-CMD npm start
+CMD npm dev
