@@ -1,14 +1,14 @@
 import mysql from 'mysql';
-import { dbConfig } from '../config';
+import { dbConfig } from '../config/dbConfig';
 
 //连接mysql
 function connect() {
-  const { host, user, password, database } = dbConfig;
+  const { host, user, database } = dbConfig;
   console.log('***********', dbConfig);
   return mysql.createConnection({
     host,
     user,
-    password,
+    password: process.env.MYSQL_PWD,
     database,
   });
 }

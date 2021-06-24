@@ -1,0 +1,57 @@
+version: '3'
+
+services:
+  node_nginx:
+    image: nginx:stable-alpine      # 指定服务镜像
+    container_name: node_nginx    # 容器名称
+    restart: always                 # 重启方式
+    ports:                          # 映射端口
+      - "8003:8003"
+    volumes:                        # 挂载数据卷
+      - /etc/localtime:/etc/localtime
+      - /home/nginx/conf.d/:/etc/nginx/conf.d
+      - /home/nginx/logs:/var/log/nginx
+    depends_on:                     # 启动顺序
+      - nodejs
+    networks:                       # 加入指定网络
+      - app-network
+
+  node_mysql:
+    image: mysql:5.7
+    container_name: node_mysql
+    restart: always
+    ports:                          # 映射端口
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=123456
+      - MYSQL_USER=wz           # 创建lovelp用户
+      - MYSQL_PASSWORD=123456     # 设置lovelp用户的密码
+      - MYSQL_DATABASE=my_test       # 创建初始数据库
+      - TZ=Asia/Shanghai            # 设置时区
+    volumes:                        # 挂载数据卷
+      - /root/mysql:/var/lib/mysql  # 为了数据持久化
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    networks:                       # 加入指定网络
+      - app-network 
+
+  nodejs:
+    build:                          # 这里指的是我们刚刚撸的 Dockerfile 文件
+      context: .                    
+      dockerfile: Dockerfile
+    image: nodejs                   # 镜像名称
+    container_name: nodejs          # 容器名称
+    restart: always                 # 重启方式
+    depends_on:                     # 启动顺序
+      - node_mysql
+    links:                          # 容器连接
+      - node_mysql:node_mysql
+    networks:                       # 加入指定网络
+      - app-network
+
+volumes:
+  certbot-etc:
+  certbot-var:
+
+networks:  # 实现通信
+  app-network:
+    driver: bridge
