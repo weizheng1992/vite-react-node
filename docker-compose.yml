@@ -17,7 +17,7 @@ services:
       - app-network
 
   node_mysql:
-    image: mysql:5.7
+    image: mysql
     container_name: node_mysql
     restart: always
     ports:                          # 映射端口

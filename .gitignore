@@ -4,10 +4,6 @@ dist
 .npmrc
 .cache
 
-Dockerfile*
-docker-compose*
-.dockerignore
-
 test/upload-server/static
 
 .local
