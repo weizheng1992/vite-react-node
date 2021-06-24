@@ -99,11 +99,6 @@
     "@types/connect" "*"
     "@types/node" "*"
 
-"@types/boom@^7.3.0":
-  version "7.3.0"
-  resolved "https://registry.nlark.com/@types/boom/download/@types/boom-7.3.0.tgz#33280c5552d4cfabc21b8b7e0f6d29292decd985"
-  integrity sha1-MygMVVLUz6vCG4t+D20pKS3s2YU=
-
 "@types/compression@^1.7.0":
   version "1.7.0"
   resolved "https://registry.nlark.com/@types/compression/download/@types/compression-1.7.0.tgz#8dc2a56604873cf0dd4e746d9ae4d31ae77b2390"
@@ -452,13 +447,6 @@ body-parser@1.19.0:
     qs "6.7.0"
     raw-body "2.4.0"
     type-is "~1.6.17"
-
-boom@^7.3.0:
-  version "7.3.0"
-  resolved "https://registry.npm.taobao.org/boom/download/boom-7.3.0.tgz#733a6d956d33b0b1999da3fe6c12996950d017b9"
-  integrity sha1-czptlW0zsLGZnaP+bBKZaVDQF7k=
-  dependencies:
-    hoek "6.x.x"
 
 boxen@^4.2.0:
   version "4.2.0"
@@ -1261,11 +1249,6 @@ has-yarn@^2.1.0:
   version "2.1.0"
   resolved "https://registry.npm.taobao.org/has-yarn/download/has-yarn-2.1.0.tgz#137e11354a7b5bf11aa5cb649cf0c6f3ff2b2e77"
   integrity sha1-E34RNUp7W/EapctknPDG8/8rLnc=
-
-hoek@6.x.x:
-  version "6.1.3"
-  resolved "https://registry.npm.taobao.org/hoek/download/hoek-6.1.3.tgz#73b7d33952e01fe27a38b0457294b79dd8da242c"
-  integrity sha1-c7fTOVLgH+J6OLBFcpS3ndjaJCw=
 
 http-cache-semantics@^4.0.0:
   version "4.1.0"

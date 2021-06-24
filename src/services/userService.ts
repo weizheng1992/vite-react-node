@@ -1,5 +1,4 @@
 import jwt from 'jsonwebtoken';
-import boom from 'boom';
 import { validationResult, ValidationError } from 'express-validator';
 import { querySql, queryOne } from '@/utils/index';
 import { Md5 as md5 } from '@/utils/md5';
