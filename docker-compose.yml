@@ -6,7 +6,7 @@ services:
     container_name: node_nginx    # 容器名称
     restart: always                 # 重启方式
     ports:                          # 映射端口
-      - "7001:7001"
+      - "8099:8099"
     volumes:                        # 挂载数据卷
       - /home/nginx/conf.d/:/etc/nginx/conf.d
       - /home/nginx/logs:/var/log/nginx
@@ -20,13 +20,9 @@ services:
     container_name: node_mysql
     restart: always
     ports:                          # 映射端口
-      - "3308:3308"
+      - "3308:3306"
     environment:
       - MYSQL_ROOT_PASSWORD=123456
-      - MYSQL_USER=wz           # 创建lovelp用户
-      - MYSQL_PASSWORD=123456     # 设置lovelp用户的密码
-      - MYSQL_DATABASE=my_test       # 创建初始数据库
-      - TZ=Asia/Shanghai            # 设置时区
     volumes:                        # 挂载数据卷
       - /root/mysql:/var/lib/mysql  # 为了数据持久化
     command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
