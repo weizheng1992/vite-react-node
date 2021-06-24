@@ -2,7 +2,7 @@ version: '3'
 
 services:
   node_nginx:
-    image: nginx:stable-alpine      # 指定服务镜像
+    image: nginx       # 指定服务镜像
     container_name: node_nginx    # 容器名称
     restart: always                 # 重启方式
     ports:                          # 映射端口
