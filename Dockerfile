@@ -1,4 +1,4 @@
-FROM node:16.3             
+FROM node           
 
 # 创建app目录
 RUN mkdir -p /home/node-app/node-react
