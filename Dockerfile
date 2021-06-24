@@ -15,7 +15,7 @@ COPY package.json /home/node-app/node-react/package.json
 
 # 安装npm依赖(使用淘宝的镜像源)
 # 如果使用的境外服务器，无需使用淘宝的镜像源，即改为`RUN npm i`。
-RUN npm i --registry=https://registry.npm.taobao.org
+RUN yarn install
 
 # 拷贝所有源代码到工作目录
 COPY . /home/node-app/node-react
@@ -24,4 +24,4 @@ COPY . /home/node-app/node-react
 EXPOSE 8099
 
 # 启动node应用
-CMD npm dev
+CMD ["yarn","dev"]
