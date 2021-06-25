@@ -42,13 +42,3 @@ services:
       - 8099:8099
     links:                          # 容器连接
       - mysql
-    networks:                       # 加入指定网络
-      - app-network
-
-volumes:
-  certbot-etc:
-  certbot-var:
-
-networks:  # 实现通信
-  app-network:
-    driver: bridge
