@@ -13,9 +13,9 @@ const vaildator = [
 ];
 
 // 用户登录路由
-router.post('/login', vaildator, login);
- 
+router.post('/login', validateUserLogin, login);
+
 // 用户注册路由
-router.post('/register', vaildator, register);
+router.post('/register', validateUserLogin, register);
 
 export default router;
