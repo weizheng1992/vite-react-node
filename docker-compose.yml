@@ -1,33 +1,33 @@
 version: '3'
 
 services:
-  node_nginx:
-    image: nginx       # 指定服务镜像
-    container_name: node_nginx    # 容器名称
-    restart: always                 # 重启方式
-    ports:                          # 映射端口
-      - "8099:8099"
-    volumes:                        # 挂载数据卷
-      - /home/nginx/conf.d/:/etc/nginx/conf.d
-      - /home/nginx/logs:/var/log/nginx
-    depends_on:                     # 启动顺序
-      - nodejs
-    networks:                       # 加入指定网络
-      - app-network
+  # node_nginx:
+  #   image: nginx       # 指定服务镜像
+  #   container_name: node_nginx    # 容器名称
+  #   restart: always                 # 重启方式
+  #   ports:                          # 映射端口
+  #     - "8099:8099"
+  #   volumes:                        # 挂载数据卷
+  #     - /home/nginx/conf.d/:/etc/nginx/conf.d
+  #     - /home/nginx/logs:/var/log/nginx
+  #   depends_on:                     # 启动顺序
+  #     - nodejs
+  #   networks:                       # 加入指定网络
+  #     - app-network
 
-  node_mysql:
-    image: mysql
-    container_name: node_mysql
-    restart: always
-    ports:                          # 映射端口
-      - "3308:3306"
-    environment:
-      - MYSQL_ROOT_PASSWORD=123456
-    volumes:                        # 挂载数据卷
-      - /root/mysql:/var/lib/mysql  # 为了数据持久化
-    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
-    networks:                       # 加入指定网络
-      - app-network 
+  # node_mysql:
+  #   image: mysql
+  #   container_name: node_mysql
+  #   restart: always
+  #   ports:                          # 映射端口
+  #     - "3308:3306"
+  #   environment:
+  #     - MYSQL_ROOT_PASSWORD=123456
+  #   volumes:                        # 挂载数据卷
+  #     - /root/mysql:/var/lib/mysql  # 为了数据持久化
+  #   command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+  #   networks:                       # 加入指定网络
+  #     - app-network 
 
   nodejs:
     build:                          # 这里指的是我们刚刚撸的 Dockerfile 文件
@@ -36,10 +36,10 @@ services:
     image: nodejs                   # 镜像名称
     container_name: nodejs          # 容器名称
     restart: always                 # 重启方式
-    depends_on:                     # 启动顺序
-      - node_mysql
+    # depends_on:                     # 启动顺序
+    #   - node_mysql
     links:                          # 容器连接
-      - node_mysql:node_mysql
+      - mysql
     networks:                       # 加入指定网络
       - app-network
 
