@@ -160,13 +160,6 @@
   dependencies:
     "@types/express" "*"
 
-"@types/express-validator@^3.0.0":
-  version "3.0.0"
-  resolved "https://registry.nlark.com/@types/express-validator/download/@types/express-validator-3.0.0.tgz#e6f3cab842e5ae376a1cfa11295202ec380b68d1"
-  integrity sha1-5vPKuELlrjdqHPoRKVIC7DgLaNE=
-  dependencies:
-    express-validator "*"
-
 "@types/express@*", "@types/express@^4.17.12":
   version "4.17.12"
   resolved "https://registry.nlark.com/@types/express/download/@types/express-4.17.12.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.nlark.com%2F%40types%2Fexpress%2Fdownload%2F%40types%2Fexpress-4.17.12.tgz#4bc1bf3cd0cfe6d3f6f2853648b40db7d54de350"
@@ -1006,7 +999,7 @@ express-unless@^0.3.0:
   resolved "https://registry.nlark.com/express-unless/download/express-unless-0.3.1.tgz#2557c146e75beb903e2d247f9b5ba01452696e20"
   integrity sha1-JVfBRudb65A+LSR/m1ugFFJpbiA=
 
-express-validator@*, express-validator@^6.12.0:
+express-validator@^6.12.0:
   version "6.12.0"
   resolved "https://registry.nlark.com/express-validator/download/express-validator-6.12.0.tgz#a9cd49b3fe4c470abb615ae2e7dd111053c25f66"
   integrity sha1-qc1Js/5MRwq7YVri590REFPCX2Y=
