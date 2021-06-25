@@ -39,6 +39,6 @@ services:
     # depends_on:                     # 启动顺序
     #   - node_mysql
     ports:
-      - 8099:8099
+      - "8099:8099"
     links:                          # 容器连接
       - mysql
