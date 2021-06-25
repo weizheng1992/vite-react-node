@@ -2,7 +2,7 @@ import express from 'express';
 import { validateUserLogin, validateUserReg } from '@/middleware/user';
 // import { login, register } from '@/controllers/user';
 import { body } from 'express-validator';
-import { login, register } from '@/controllers/userService';
+import { login, register } from '@/controllers/user';
 
 const router = express.Router();
 
@@ -14,7 +14,7 @@ const vaildator = [
 
 // 用户登录路由
 router.post('/login', vaildator, login);
-
+ 
 // 用户注册路由
 router.post('/register', vaildator, register);
 
