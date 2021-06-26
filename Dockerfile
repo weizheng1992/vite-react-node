@@ -23,4 +23,4 @@ COPY . /home/node-app/node-react/
 EXPOSE 8099
 
 # 启动node应用
-CMD ["yarn","dev"]
+CMD ["yarn","prod"]

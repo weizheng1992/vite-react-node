@@ -8,3 +8,8 @@ coverage/*
 /src/public/
 # custom definition files
 /src/types/
+
+
+Dockerfile*
+docker-compose*
+
