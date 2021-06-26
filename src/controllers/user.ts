@@ -11,6 +11,7 @@ const { CODE_ERROR, CODE_SUCCESS, PRIVATE_KEY, JWT_EXPIRED } = systemConfig;
 
 // 登录
 const login = async (req: Request, res: Response, next: NextFunction) => {
+  console.log('1 :>> ', 1);
   const errorFormatter = ({ location, msg, param, value, nestedErrors }: ValidationError) => {
     // Build your resulting errors however you want! String, object, whatever - it works!
     return `${msg}`;
@@ -27,8 +28,7 @@ const login = async (req: Request, res: Response, next: NextFunction) => {
   let { username, password } = req.body;
   // md5加密
   password = md5(password);
-  // const query = `select * from sys_user where username='${username}' and password='${password}'`;
-  const user: any = await querySql(logSelect(username, password));
+  const user: any = await querySql(regSelect(username));
   // 判断账户
   if (user.length === 0) {
     res.json(sendMes(CODE_ERROR, '账户不存在!'));
@@ -51,6 +51,7 @@ const login = async (req: Request, res: Response, next: NextFunction) => {
 
 // 注册
 const register = async (req: Request, res: Response, next: NextFunction) => {
+  console.log('2 :>> ', 2);
   const errorFormatter = ({ location, msg, param, value, nestedErrors }: ValidationError) => {
     // Build your resulting errors however you want! String, object, whatever - it works!
     return `${msg}`;
@@ -61,16 +62,20 @@ const register = async (req: Request, res: Response, next: NextFunction) => {
     return
   }
   let { username, password } = req.body;
-  // 查询用户注册
-  const data = await queryOne(regSelect(username))
-  if(data){
+  // // 查询用户注册
+  const data: any = await querySql(regSelect(username));
+  if(data.length>0){
     res.json(sendMes(CODE_ERROR, '用户已存在'));
     return
   }
   password = md5(password);
-  const user:any = await querySql(regInsert(username,password))
-  const token = jwt.sign({ username }, PRIVATE_KEY, { expiresIn: JWT_EXPIRED });
-  res.json(sendMes(CODE_SUCCESS, '注册成功', { token, userId: user[0].id }))
+  const registerRes:any = await querySql(regInsert(username,password))
+  if(registerRes.affectedRows === 1) {
+    res.json(sendMes(CODE_SUCCESS, '注册成功'))
+    // 注册完之后登录
+    login(req, res, next)
+  }
+  res.json(sendMes(CODE_ERROR, '服务器故障，注册失败'));
 }
 
 export { login, register };

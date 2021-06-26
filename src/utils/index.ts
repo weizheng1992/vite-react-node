@@ -1,3 +1,4 @@
+import { resolve } from 'path';
 import mysql from 'mysql';
 import { dbConfig } from '../config/dbConfig';
 
@@ -16,6 +17,7 @@ function connect() {
 //新建查询连接
 function querySql(sql: string) {
   const conn = connect();
+  // console.log('conn :>> ', conn);
   return new Promise((resolve, reject) => {
     try {
       conn.query(sql, (err, res) => {
@@ -50,6 +52,13 @@ function queryOne(sql: string) {
         reject(err);
       });
   });
+}
+
+// 插入一条语句
+function insertOne(sql: string) {
+  return new Promise((resolve, reject) => {
+
+  })
 }
 
 export { querySql, queryOne };
