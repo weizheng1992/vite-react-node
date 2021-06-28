@@ -1,4 +1,4 @@
-FROM node           
+FROM node:alpine           
 
 # 创建app目录
 RUN mkdir -p /home/node-app/node-react
@@ -14,7 +14,7 @@ WORKDIR /home/node-app/node-react
 COPY package.json /home/node-app/node-react/package.json
 # 安装npm依赖(使用淘宝的镜像源)
 # 如果使用的境外服务器，无需使用淘宝的镜像源，即改为`RUN npm i`。
-RUN yarn install
+RUN yarn install --production
 
 # 拷贝所有源代码到工作目录
 COPY . /home/node-app/node-react/
