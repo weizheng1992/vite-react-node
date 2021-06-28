@@ -1,8 +1,16 @@
+/*
+ * @Author: your name
+ * @Date: 2021-06-28 16:37:28
+ * @LastEditTime: 2021-06-28 19:33:44
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: /react+node/vite-react-node/src/middleware/user.ts
+ */
 import { NextFunction, Request, Response } from 'express';
 import { check, validationResult } from 'express-validator';
 import { systemConfig } from '@/config';
-import { findUser } from '@/sqls/user';
-import { UserInfo } from '@/sqls/user/model/searchModel';
+// import { findUser } from '@/sqls/user';
+// import { UserInfo } from '@/sqls/user/model/searchModel';
 import { sendMes } from '@/utils/sendMes';
 const { CODE_ERROR } = systemConfig;
 
@@ -33,10 +41,10 @@ export async function validateUserReg(req: Request, res: Response, next: NextFun
     return
   }
   const { username } = req.body;
-  const data: UserInfo = await findUser(username);
-  if (data) {
-    res.json(sendMes(CODE_ERROR, '用户已存在'))
-    return
-  }
+  // const data: UserInfo = await findUser(username);
+  // if (data) {
+  //   res.json(sendMes(CODE_ERROR, '用户已存在'))
+  //   return
+  // }
   next();
 }

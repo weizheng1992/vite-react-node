@@ -1,7 +1,15 @@
+/*
+ * @Author: your name
+ * @Date: 2021-06-28 19:17:44
+ * @LastEditTime: 2021-06-28 20:02:51
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: /react+node/vite-react-node/src/config/config.default.ts
+ */
 import { resolve } from 'path';
 import mysql from 'mysql';
 //连接mysql
-function connect() {
+const connection = () => {
   return mysql.createConnection({
     host: process.env.DB_HOST,
     user: process.env.DB_USER,
@@ -10,10 +18,22 @@ function connect() {
   });
 }
 
+// connection()
+
+
+
+// const conns = mysql.createConnection({
+//       host: process.env.DB_HOST,
+//       user: process.env.DB_USER,
+//       password: process.env.DB_PWD,
+//       database: process.env.DB_DATABASE,
+//     });
+
 //新建查询连接
-function querySql(sql: string) {
-  const conn = connect();
-  // console.log('conn :>> ', conn);
+const querySql = (sql: string) => {
+  const conn = connection();
+  // const conn = conns.connect();
+  console.log('conn :>> ', conn);
   return new Promise((resolve, reject) => {
     try {
       conn.query(sql, (err, res) => {
@@ -33,7 +53,7 @@ function querySql(sql: string) {
 }
 
 //查询一条语句
-function queryOne(sql: string) {
+const queryOne = (sql: string) => {
   return new Promise((resolve, reject) => {
     querySql(sql)
       .then((res: any) => {
@@ -50,11 +70,11 @@ function queryOne(sql: string) {
   });
 }
 
-// 插入一条语句
-function insertOne(sql: string) {
-  return new Promise((resolve, reject) => {
+// // 插入一条语句
+// function insertOne(sql: string) {
+//   return new Promise((resolve, reject) => {
 
-  })
-}
+//   })
+// }
 
 export { querySql, queryOne };

@@ -1,6 +1,14 @@
+/*
+ * @Author: your name
+ * @Date: 2021-06-28 16:37:28
+ * @LastEditTime: 2021-06-28 19:28:09
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: /react+node/vite-react-node/src/controllers/user.ts
+ */
 import jwt from 'jsonwebtoken';
 import { validationResult, ValidationError } from 'express-validator';
-import { querySql, queryOne } from '@/utils/index';
+import { querySql } from '@/config/config.default';
 import { Md5 as md5 } from '@/utils/md5';
 import { systemConfig } from '@/config';
 import { sendMes } from '@/utils/sendMes';
