@@ -1,4 +1,4 @@
-import { querySql, queryOne } from '@/utils';
+import { querySql, queryOne } from '@/config/config.default';
 import { Md5 as md5 } from '@/utils/md5';
 import { UserParams, UserInfo } from './model/searchModel';
 
