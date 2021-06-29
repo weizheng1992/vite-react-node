@@ -1,8 +1,8 @@
 /*
  * @Author: weizheng
  * @Date: 2021-06-29 18:51:23
- * @LastEditors: weizheng
- * @LastEditTime: 2021-06-29 18:55:41
+ * @LastEditors: zz
+ * @LastEditTime: 2021-06-29 20:36:39
  */
 import jwt from 'jsonwebtoken';
 import { validationResult, ValidationError } from 'express-validator';
@@ -11,7 +11,7 @@ import { Md5 as md5 } from '@/utils/md5';
 import { systemConfig } from '@/config';
 import { sendMes } from '@/utils/sendMes';
 import { requestErr } from '@/utils/requestErr';
-import { logSelect, regSelect, regInsert ,userListSelect} from '@/services/user';
+import { logSelect, regSelect, regInsert ,userListSelect } from '@/services/user';
 import { Request, Response, NextFunction } from 'express';
 
 const { CODE_ERROR, CODE_SUCCESS, PRIVATE_KEY, JWT_EXPIRED } = systemConfig;

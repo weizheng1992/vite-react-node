@@ -1,8 +1,8 @@
 /*
  * @Author: weizheng
  * @Date: 2021-06-28 10:48:47
- * @LastEditors: weizheng
- * @LastEditTime: 2021-06-29 17:39:15
+ * @LastEditors: zz
+ * @LastEditTime: 2021-06-29 20:35:42
  */
 // 登录接口的查询
 export const logSelect = (user: string, pwd: string) => {
@@ -29,5 +29,8 @@ export const regSelect = (user: string) => {
 export const userListSelect = (size = 10, page: number):string => {
   return `select * from student limit(${page}-1)*${size},${size}`;
 };
+
+
+
 
 
