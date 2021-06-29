@@ -1,10 +1,8 @@
 /*
- * @Author: your name
- * @Date: 2021-06-28 16:37:28
- * @LastEditTime: 2021-06-28 19:28:09
- * @LastEditors: Please set LastEditors
- * @Description: In User Settings Edit
- * @FilePath: /react+node/vite-react-node/src/controllers/user.ts
+ * @Author: weizheng
+ * @Date: 2021-06-29 18:51:23
+ * @LastEditors: weizheng
+ * @LastEditTime: 2021-06-29 18:55:41
  */
 import jwt from 'jsonwebtoken';
 import { validationResult, ValidationError } from 'express-validator';
@@ -12,7 +10,8 @@ import { querySql } from '@/config/config.default';
 import { Md5 as md5 } from '@/utils/md5';
 import { systemConfig } from '@/config';
 import { sendMes } from '@/utils/sendMes';
-import { logSelect, regSelect, regInsert } from '@/services/user';
+import { requestErr } from '@/utils/requestErr';
+import { logSelect, regSelect, regInsert ,userListSelect} from '@/services/user';
 import { Request, Response, NextFunction } from 'express';
 
 const { CODE_ERROR, CODE_SUCCESS, PRIVATE_KEY, JWT_EXPIRED } = systemConfig;
@@ -66,24 +65,30 @@ const register = async (req: Request, res: Response, next: NextFunction) => {
   };
   const err: any = validationResult(req).formatWith(errorFormatter);
   if (!err.isEmpty()) {
-    res.json(sendMes(CODE_ERROR, err.array().join(',')))
-    return
+    res.json(sendMes(CODE_ERROR, err.array().join(',')));
+    return;
   }
   let { username, password } = req.body;
   // // 查询用户注册
   const data: any = await querySql(regSelect(username));
-  if(data.length>0){
+  if (data.length > 0) {
     res.json(sendMes(CODE_ERROR, '用户已存在'));
-    return
+    return;
   }
   password = md5(password);
-  const registerRes:any = await querySql(regInsert(username,password))
-  if(registerRes.affectedRows === 1) {
-    res.json(sendMes(CODE_SUCCESS, '注册成功'))
+  const registerRes: any = await querySql(regInsert(username, password));
+  if (registerRes.affectedRows === 1) {
+    res.json(sendMes(CODE_SUCCESS, '注册成功'));
     // 注册完之后登录
-    login(req, res, next)
+    login(req, res, next);
   }
   res.json(sendMes(CODE_ERROR, '服务器故障，注册失败'));
-}
+};
 
-export { login, register };
+const userList = async (req: Request, res: Response, next: NextFunction) => {
+  requestErr(req, res);
+  let { page, size } = req.body;
+  const user: any = await querySql(userListSelect(page, size));
+};
+
+export { login, register, userList };

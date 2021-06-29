@@ -29,3 +29,5 @@ export const regSelect = (user: string) => {
 export const userListSelect = (size = 10, page: number):string => {
   return `select * from student limit(${page}-1)*${size},${size}`;
 };
+
+
