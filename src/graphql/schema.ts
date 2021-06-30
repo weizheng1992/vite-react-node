@@ -2,7 +2,7 @@
  * @Author: weizheng
  * @Date: 2021-06-29 19:28:35
  * @LastEditors: weizheng
- * @LastEditTime: 2021-06-29 19:41:45
+ * @LastEditTime: 2021-06-30 11:08:22
  */
 import { buildSchema } from 'graphql';
 
@@ -11,4 +11,9 @@ type Query {
   hello: String
 }
 `);
-export { schema };
+const schemaObj = buildSchema(`
+type Query {
+  username: String
+}
+`);
+export { schema, schemaObj };

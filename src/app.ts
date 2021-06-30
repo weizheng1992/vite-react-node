@@ -2,7 +2,7 @@
  * @Author: weizheng
  * @Date: 2021-06-17 15:47:05
  * @LastEditors: weizheng
- * @LastEditTime: 2021-06-29 19:42:44
+ * @LastEditTime: 2021-06-30 11:51:31
  */
 import express from 'express';
 import bodyParser from 'body-parser';
@@ -10,7 +10,9 @@ import { graphqlHTTP } from 'express-graphql';
 import compression from 'compression';
 import routes from '@/routes';
 import cors from 'cors';
-import { schema } from '@/graphql/schema';
+import { ApolloServer, gql } from 'apollo-server-express';
+import { querySql } from '@/config/config.default';
+import { regSelect } from '@/services/user';
 
 const app = express();
 
@@ -28,15 +30,34 @@ app.use(
 
 app.use(cors()); // 注入cors模块解决跨域
 
-const root = { hello: () => 'Hello world!' };
-app.use(
-  '/graphql',
-  graphqlHTTP({
-    schema: schema,
-    rootValue: root,
-    graphiql: true,
-  })
-);
+const typeDefs = gql`
+  type Todo {
+    id: Int!
+    username: String
+  }
+  type Query {
+    hello: String
+    todo(username: String): Todo
+  }
+`;
+
+const resolvers = {
+  Query: {
+    hello: () => 'Hello world!',
+    async todo(parent: any, args: any, context: any, info: any) {
+      const user: any = await querySql(regSelect(args.username));
+      console.log(user[0]);
+      return user[0];
+    },
+    // todos:async () => {
+    //   return await LibTodos.get_items()
+    // },
+  },
+};
+
+const server = new ApolloServer({ typeDefs, resolvers });
+server.applyMiddleware({ app });
+
 /* 路由 */
 app.use('/', routes);
 

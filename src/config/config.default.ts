@@ -1,8 +1,8 @@
 /*
  * @Author: your name
  * @Date: 2021-06-28 19:17:44
- * @LastEditTime: 2021-06-28 20:02:51
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2021-06-30 11:44:42
+ * @LastEditors: weizheng
  * @Description: In User Settings Edit
  * @FilePath: /react+node/vite-react-node/src/config/config.default.ts
  */
@@ -33,7 +33,7 @@ const connection = () => {
 const querySql = (sql: string) => {
   const conn = connection();
   // const conn = conns.connect();
-  console.log('conn :>> ', conn);
+  // console.log('conn :>> ', conn);
   return new Promise((resolve, reject) => {
     try {
       conn.query(sql, (err, res) => {
