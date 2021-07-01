@@ -33,7 +33,7 @@ const connection = () => {
 const querySql = (sql: string) => {
   const conn = connection();
   // const conn = conns.connect();
-  console.log('conn :>> ', conn);
+  // console.log('conn :>> ', conn);
   return new Promise((resolve, reject) => {
     try {
       conn.query(sql, (err, res) => {

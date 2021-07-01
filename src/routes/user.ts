@@ -28,6 +28,6 @@ router.post('/login', validateUserLogin, login);
 router.post('/register', validateUserLogin, register);
 
 // 用户信息查询
-router.post('/userinfo', vai, userName);
+router.post('/userinfo', userName);
 
 export default router;

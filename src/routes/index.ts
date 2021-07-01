@@ -1,6 +1,6 @@
 import express from 'express';
 import userRouter from './user';
-import { jwtAuth } from '@/utils/user-jwt';
+import { jwtAuth, decode } from '@/utils/user-jwt';
 
 import { NextFunction, Request, Response, Errback } from 'express';
 
@@ -8,6 +8,22 @@ const router = express.Router();
 router.use(jwtAuth); // 注入认证模块
 
 router.use('/api', userRouter); // 注入用户路由模块
+
+router.use((err: Error, req: Request, res: Response, next: NextFunction) => {
+  var token = req.headers['authorization'];
+  if (token == undefined) {
+    return next();
+  } else {
+    try {
+      const decoded = decode(token);
+      // req.
+      req.user = decoded;
+      return next();
+    } catch (error) {
+      return next();
+    }
+  }
+});
 
 // 自定义统一异常处理中间件，需要放在代码最后
 router.use((err: Error, req: Request, res: Response, next: NextFunction) => {

@@ -4,7 +4,7 @@ import { systemConfig } from '../config';
 
 // 验证token是否过期
 const jwtAuth = expressJwt({
-  algorithms: [],
+  algorithms: ['HS256'],
   // 设置密钥
   secret: systemConfig.PRIVATE_KEY,
   // 设置为true表示校验，false表示不校验
@@ -23,8 +23,7 @@ const jwtAuth = expressJwt({
 });
 
 // jwt-token解析
-function decode(req: any) {
-  const token = req.get('Authorization');
+function decode(token: string) {
   return jwt.verify(token, systemConfig.PRIVATE_KEY);
 }
 
