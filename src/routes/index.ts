@@ -3,6 +3,7 @@ import userRouter from './user';
 import { jwtAuth, decode } from '@/utils/user-jwt';
 
 import { NextFunction, Request, Response, Errback } from 'express';
+import e from 'cors';
 
 const router = express.Router();
 router.use(jwtAuth); // 注入认证模块
@@ -20,7 +21,7 @@ router.use((err: Error, req: Request, res: Response, next: NextFunction) => {
       req.user = decoded;
       return next();
     } catch (error) {
-      return next();
+      return next(error);
     }
   }
 });
@@ -30,6 +31,13 @@ router.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   // 自定义用户认证失败的错误返回
   console.log('err===', err);
   if (err && err.name === 'UnauthorizedError') {
+    // 抛出401异常
+    res.status(401).json({
+      code: 401,
+      msg: 'token失效，请重新登录',
+      data: null,
+    });
+  } else if (err && err.name === 'TokenExpiredError') {
     // 抛出401异常
     res.status(401).json({
       code: 401,

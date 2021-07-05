@@ -5,5 +5,5 @@
  * @LastEditTime: 2021-06-29 17:41:00
  */
 export const countSelect = (table: string): string => {
-  return `SELECT COUNT(*) FROM ${table}`;
+  return `SELECT COUNT(*) AS count FROM ${table}`;
 };
