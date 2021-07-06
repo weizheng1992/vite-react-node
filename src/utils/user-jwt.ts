@@ -1,3 +1,9 @@
+/*
+ * @Author: zz
+ * @Date: 2021-07-02 15:08:13
+ * @LastEditors: zz
+ * @LastEditTime: 2021-07-06 17:16:18
+ */
 import jwt from 'jsonwebtoken'; // 引入验证jsonwebtoken模块
 import expressJwt from 'express-jwt'; // 引入express-jwt模块
 import { systemConfig } from '../config';
