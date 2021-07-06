@@ -26,11 +26,7 @@ export const regSelect = (user: string) => {
  * @param {number} page 开始 1
  * @return {*}
  */
-export const userListSelect = (size = 10, page: number):string => {
-  return `select * from student limit(${page}-1)*${size},${size}`;
+export const userListSelect = (page: number, size = 10): string => {
+  const min = (page - 1) * size;
+  return `select * from sys_user limit ${min},${size}`;
 };
-
-
-
-
-

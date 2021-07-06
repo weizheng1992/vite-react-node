@@ -6,13 +6,14 @@
  */
 import jwt from 'jsonwebtoken';
 import { validationResult, ValidationError } from 'express-validator';
-import { querySql } from '@/config/config.default';
+import { querySql, queryOne } from '@/config/config.default';
 import { Md5 as md5 } from '@/utils/md5';
 import { systemConfig } from '@/config';
 import { sendMes } from '@/utils/sendMes';
 import { requestErr } from '@/utils/requestErr';
-import { logSelect, regSelect, regInsert ,userListSelect } from '@/services/user';
+import { logSelect, regSelect, regInsert, userListSelect } from '@/services/user';
 import { Request, Response, NextFunction } from 'express';
+import { countSelect } from '@/services/common';
 
 const { CODE_ERROR, CODE_SUCCESS, PRIVATE_KEY, JWT_EXPIRED } = systemConfig;
 
@@ -87,8 +88,15 @@ const register = async (req: Request, res: Response, next: NextFunction) => {
 
 const userList = async (req: Request, res: Response, next: NextFunction) => {
   requestErr(req, res);
-  let { page, size } = req.body;
+  const { page, size } = req.body;
+  console.log(page, size);
   const user: any = await querySql(userListSelect(page, size));
+  const count:any = await queryOne(countSelect('sys_user'));
+  const data = {
+    items: user,
+    total: count.count,
+  };
+  res.json(sendMes(CODE_SUCCESS, '查询成功!', data));
 };
 
 export { login, register, userList };
