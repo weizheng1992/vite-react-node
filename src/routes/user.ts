@@ -2,7 +2,7 @@
  * @Author: zz
  * @Date: 2021-06-28 16:37:28
  * @LastEditors: weizheng
- * @LastEditTime: 2021-07-08 16:01:43
+ * @LastEditTime: 2021-07-08 17:24:18
  */
 import express from 'express';
 import { validateUserLogin } from '@/middleware/user';
@@ -21,6 +21,6 @@ router.post('/register', validateUserLogin, register);
 router.post('/userList', userList);
 
 // 用户信息查询
-router.post('/userinfo', userName);
+router.post('/sysUserList', userName);
 
 export default router;
