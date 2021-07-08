@@ -1,8 +1,8 @@
 /*
  * @Author: your name
  * @Date: 2021-06-28 19:17:44
- * @LastEditTime: 2021-06-28 20:02:51
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2021-07-08 17:00:29
+ * @LastEditors: weizheng
  * @Description: In User Settings Edit
  * @FilePath: /react+node/vite-react-node/src/config/config.default.ts
  */
@@ -16,11 +16,9 @@ const connection = () => {
     password: process.env.DB_PWD,
     database: process.env.DB_DATABASE,
   });
-}
+};
 
 // connection()
-
-
 
 // const conns = mysql.createConnection({
 //       host: process.env.DB_HOST,
@@ -30,10 +28,8 @@ const connection = () => {
 //     });
 
 //新建查询连接
-const querySql = (sql: string) => {
+export function querySql<T = any>(sql: string): Promise<T> {
   const conn = connection();
-  // const conn = conns.connect();
-  // console.log('conn :>> ', conn);
   return new Promise((resolve, reject) => {
     try {
       conn.query(sql, (err, res) => {
@@ -53,15 +49,15 @@ const querySql = (sql: string) => {
 }
 
 //查询一条语句
-const queryOne = (sql: string) => {
+export function queryOne<T = any>(sql: string): Promise<T> {
   return new Promise((resolve, reject) => {
-    querySql(sql)
+    querySql<T>(sql)
       .then((res: any) => {
         console.log('res===', res);
         if (res && res.length > 0) {
           resolve(res[0]);
         } else {
-          resolve(null);
+          resolve(res);
         }
       })
       .catch((err) => {
@@ -76,5 +72,3 @@ const queryOne = (sql: string) => {
 
 //   })
 // }
-
-export { querySql, queryOne };
