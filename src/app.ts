@@ -2,10 +2,9 @@
  * @Author: weizheng
  * @Date: 2021-06-17 15:47:05
  * @LastEditors: weizheng
- * @LastEditTime: 2021-06-30 11:51:31
+ * @LastEditTime: 2021-07-12 17:07:16
  */
 import express from 'express';
-import bodyParser from 'body-parser';
 import { graphqlHTTP } from 'express-graphql';
 import compression from 'compression';
 import routes from '@/routes';
@@ -20,10 +19,10 @@ const app = express();
 app.use(compression());
 
 // 请求解析json
-app.use(bodyParser.json());
+app.use(express.json());
 //请求解析formData;
 app.use(
-  bodyParser.urlencoded({
+  express.urlencoded({
     extended: false,
   })
 );
@@ -32,7 +31,7 @@ app.use(cors()); // 注入cors模块解决跨域
 
 const typeDefs = gql`
   type Todo {
-    id: Int!
+    user_id: Int!
     username: String
   }
   type Query {
