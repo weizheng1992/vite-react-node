@@ -1,8 +1,8 @@
 /*
  * @Author: weizheng
  * @Date: 2021-06-29 18:51:23
- * @LastEditors: zz
- * @LastEditTime: 2021-06-29 20:36:39
+ * @LastEditors: weizheng
+ * @LastEditTime: 2021-07-08 17:05:02
  */
 import jwt from 'jsonwebtoken';
 import { validationResult, ValidationError } from 'express-validator';
@@ -14,6 +14,7 @@ import { requestErr } from '@/utils/requestErr';
 import { logSelect, regSelect, regInsert, userListSelect } from '@/services/user';
 import { Request, Response, NextFunction } from 'express';
 import { countSelect } from '@/services/common';
+import { UserInfo } from '@/controllers/model/userModel';
 
 const { CODE_ERROR, CODE_SUCCESS, PRIVATE_KEY, JWT_EXPIRED } = systemConfig;
 
@@ -24,7 +25,7 @@ const login = async (req: Request, res: Response, next: NextFunction) => {
     // Build your resulting errors however you want! String, object, whatever - it works!
     return `${msg}`;
   };
-  const err: any = validationResult(req).formatWith(errorFormatter);
+  const err = validationResult(req).formatWith(errorFormatter);
   // 如果验证错误，empty不为空
   if (!err.isEmpty()) {
     // 获取错误信息
@@ -36,7 +37,7 @@ const login = async (req: Request, res: Response, next: NextFunction) => {
   let { username, password } = req.body;
   // md5加密
   password = md5(password);
-  const user: any = await querySql(regSelect(username));
+  const user: UserInfo[] = await querySql<UserInfo[]>(regSelect(username));
   // 判断账户
   if (user.length === 0) {
     res.json(sendMes(CODE_ERROR, '账户不存在!'));
@@ -64,14 +65,14 @@ const register = async (req: Request, res: Response, next: NextFunction) => {
     // Build your resulting errors however you want! String, object, whatever - it works!
     return `${msg}`;
   };
-  const err: any = validationResult(req).formatWith(errorFormatter);
+  const err = validationResult(req).formatWith(errorFormatter);
   if (!err.isEmpty()) {
     res.json(sendMes(CODE_ERROR, err.array().join(',')));
     return;
   }
   let { username, password } = req.body;
   // // 查询用户注册
-  const data: any = await querySql(regSelect(username));
+  const data: UserInfo[] = await querySql<UserInfo[]>(regSelect(username));
   if (data.length > 0) {
     res.json(sendMes(CODE_ERROR, '用户已存在'));
     return;
@@ -90,8 +91,8 @@ const userList = async (req: Request, res: Response, next: NextFunction) => {
   requestErr(req, res);
   const { page, size } = req.body;
   console.log(page, size);
-  const user: any = await querySql(userListSelect(page, size));
-  const count:any = await queryOne(countSelect('sys_user'));
+  const user: UserInfo[] = await querySql<UserInfo[]>(userListSelect(page, size));
+  const count: { count: number } = await queryOne<{ count: number }>(countSelect('sys_user'));
   const data = {
     items: user,
     total: count.count,
