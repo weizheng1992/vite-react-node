@@ -2,7 +2,7 @@
  * @Author: weizheng
  * @Date: 2021-06-18 15:19:05
  * @LastEditors: weizheng
- * @LastEditTime: 2021-07-08 17:07:58
+ * @LastEditTime: 2021-07-12 18:01:51
  */
 import express from 'express';
 import { jwtAuth, decode } from '@/utils/user-jwt';
@@ -15,7 +15,7 @@ const router = express.Router();
 router.use(jwtAuth); // 注入认证模块
 
 router.use('/api', userRouter); // 注入用户路由模块
-router.use('/api/menu', menuRouter); // 注入菜单管理
+router.use('/api', menuRouter); // 注入菜单管理
 
 router.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   var token = req.headers['authorization'];

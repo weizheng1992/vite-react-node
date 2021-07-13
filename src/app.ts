@@ -1,3 +1,9 @@
+/*
+ * @Author: weizheng
+ * @Date: 2021-07-12 17:09:02
+ * @LastEditors: weizheng
+ * @LastEditTime: 2021-07-12 17:57:30
+ */
 import express from 'express';
 import bodyParser from 'body-parser';
 import { Request, Response, NextFunction } from 'express';
@@ -11,10 +17,10 @@ const app = express();
 app.use(compression());
 
 // 请求解析json
-app.use(bodyParser.json());
+app.use(express.json());
 //请求解析formData;
 app.use(
-  bodyParser.urlencoded({
+  express.urlencoded({
     extended: false,
   })
 );

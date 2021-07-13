@@ -2,13 +2,13 @@
  * @Author: weizheng
  * @Date: 2021-07-08 17:05:48
  * @LastEditors: weizheng
- * @LastEditTime: 2021-07-08 17:08:08
+ * @LastEditTime: 2021-07-12 18:01:58
  */
 import express from 'express';
-import { validateUserLogin } from '@/middleware/user';
+import { menus } from '@/controllers/sys/menu';
 
 const router = express.Router();
 
-router.post('/list');
+router.post('/menu/list', menus);
 
 export default router;

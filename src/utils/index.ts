@@ -2,47 +2,63 @@
  * @Author: weizheng
  * @Date: 2021-07-08 16:30:48
  * @LastEditors: weizheng
- * @LastEditTime: 2021-07-08 16:47:48
+ * @LastEditTime: 2021-07-13 14:58:26
  */
-import { remove } from 'lodash-es';
-
-/**
- * @name: weizheng
- * @desc: 数组转数
- * @param {any} arr
- * @param {*} pid
- * @param {*} id
- * @return {*}
- */
-const arrToTree = (arr: any[], pid = 'parentId', id = 'id') => {
-  const tree: any[] = [];
-  remove(arr, (item) => {
-    if (item[pid] === '0') {
-      tree.push(item);
-      return true;
-    }
-    return false;
-  });
-  // 递归
-  const getChildren = (arr: any[], tree: any[], pid: string, id: string) => {
-    if (!arr || !tree) return;
-    tree.forEach((i) => {
-      remove(arr, (j) => {
-        if (j[pid] === i[id]) {
-          i.children.push(j);
-          return true;
-        }
-        return false;
-      });
-      if (i.children.length === 0) {
-        delete i.children;
-      } else {
-        getChildren(arr, i.children, pid, id);
-      }
-    });
-  };
-  getChildren(arr, tree, pid, id);
-  return tree;
+interface TreeHelperConfig {
+  id: string;
+  children: string;
+  pid: string;
+}
+const DEFAULT_CONFIG: TreeHelperConfig = {
+  id: 'menuId',
+  children: 'children',
+  pid: 'parentId',
 };
 
-export { arrToTree };
+const getConfig = (config: Partial<TreeHelperConfig>) => Object.assign({}, DEFAULT_CONFIG, config);
+
+// tree from list
+export function listToTree<T = any>(list: any[], config: Partial<TreeHelperConfig> = {}): T[] {
+  const conf = getConfig(config) as TreeHelperConfig;
+  const nodeMap = new Map();
+  const result: T[] = [];
+  const { id, children, pid } = conf;
+
+  for (const node of list) {
+    node[children] = node[children] || [];
+    nodeMap.set(node[id], node);
+  }
+  for (const node of list) {
+    const parent = nodeMap.get(node[pid]);
+    (parent ? parent.children : result).push(node);
+  }
+  return result;
+}
+
+export function toHumpFun(obj: any) {
+  const result: any = Array.isArray(obj) ? [] : {};
+  for (const key in obj) {
+    if (obj.hasOwnProperty(key)) {
+      const element = obj[key];
+      const index = key.indexOf('_');
+      let newKey = key;
+      if (index === -1 || key.length === 1) {
+        result[key] = element;
+      } else {
+        const keyArr = key.split('_');
+        const newKeyArr = keyArr.map((item, index) => {
+          if (index === 0) return item;
+          return item.charAt(0).toLocaleUpperCase() + item.slice(1);
+        });
+        newKey = newKeyArr.join('');
+        result[newKey] = element;
+      }
+
+      if (typeof element === 'object' && element !== null) {
+        result[newKey] = toHumpFun(element);
+      }
+    }
+  }
+  return result;
+}
+
