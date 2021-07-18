@@ -1,8 +1,7 @@
 FROM alpine AS builder
 WORKDIR /home/node-app/node-react
 RUN apk add --no-cache --update nodejs nodejs-npm
-COPY package.json package-lock.json ./
-RUN npm install --production=fasle
+RUN yarn install --production=fasle
 
 
 FROM alpine           
