@@ -3,9 +3,9 @@ FROM node:14-alpine AS BUILD_IMAGE
 
 RUN mkdir -p /home/node-app/node-react
 
-WORKDIR /home/node-app/node-react
+COPY . /home/node-app/node-react
 
-COPY . .
+WORKDIR /home/node-app/node-react
 
 RUN yarn install --frozen-lockfile
 
