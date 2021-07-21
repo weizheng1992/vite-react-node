@@ -2,7 +2,7 @@
  * @Author: weizheng
  * @Date: 2021-06-18 15:19:05
  * @LastEditors: weizheng
- * @LastEditTime: 2021-07-18 19:43:06
+ * @LastEditTime: 2021-07-21 19:41:52
  */
 import express from 'express';
 import { jwtAuth, decode } from '@/utils/user-jwt';
@@ -24,10 +24,11 @@ router.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   } else {
     try {
       const decoded = decode(token);
-      // req.
+      console.log("decoded",decoded)
       req.user = decoded;
       return next();
     } catch (error) {
+      console.log("error",error)
       return next(error);
     }
   }

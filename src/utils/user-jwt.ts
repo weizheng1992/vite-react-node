@@ -2,7 +2,7 @@
  * @Author: zz
  * @Date: 2021-07-02 15:08:13
  * @LastEditors: weizheng
- * @LastEditTime: 2021-07-21 11:26:39
+ * @LastEditTime: 2021-07-21 19:58:51
  */
 import jwt from 'jsonwebtoken'; // 引入验证jsonwebtoken模块
 import expressJwt from 'express-jwt'; // 引入express-jwt模块
@@ -10,7 +10,7 @@ import { systemConfig } from '../config';
 
 // 验证token是否过期
 const jwtAuth = expressJwt({
-  algorithms: ['HS256'],
+  algorithms: ['RS256'],
   // 设置密钥
   secret: systemConfig.PRIVATE_KEY,
   // 设置为true表示校验，false表示不校验
@@ -30,7 +30,7 @@ const jwtAuth = expressJwt({
 
 // jwt-token解析
 function decode(token: string) {
-  return jwt.verify(token, systemConfig.PRIVATE_KEY,{ algorithms: ['HS256'] });
+  return jwt.verify(token, systemConfig.PRIVATE_KEY,{ algorithms: ['RS256'] });
 }
 
 export { jwtAuth, decode };
