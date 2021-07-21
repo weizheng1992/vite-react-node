@@ -5,7 +5,7 @@ RUN mkdir -p /home/node-app/node-react
 
 WORKDIR /home/node-app/node-react
 
-COPY . /home/node-app/node-react/
+COPY . .
 
 RUN yarn install --frozen-lockfile
 
