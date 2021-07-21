@@ -5,7 +5,7 @@ RUN mkdir -p /home/node-app/node-react
 
 WORKDIR /home/node-app/node-react
 
-COPY ["package.json", "yarn.lock", "./"]
+COPY . /home/node-app/node-react/
 
 RUN yarn install --frozen-lockfile
 
@@ -32,7 +32,6 @@ RUN yarn install --frozen-lockfile
 # # RUN yarn install --production=false
 # COPY --from=builder /home/node-app/node-react ./node_modules
 # # 拷贝所有源代码到工作目录
-# COPY . /home/node-app/node-react/
 
 # 暴露容器端口
 EXPOSE 8099
