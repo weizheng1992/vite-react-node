@@ -1,8 +1,8 @@
 /*
  * @Author: zz
  * @Date: 2021-07-02 15:08:13
- * @LastEditors: zz
- * @LastEditTime: 2021-07-06 17:16:18
+ * @LastEditors: weizheng
+ * @LastEditTime: 2021-07-21 11:26:39
  */
 import jwt from 'jsonwebtoken'; // 引入验证jsonwebtoken模块
 import expressJwt from 'express-jwt'; // 引入express-jwt模块
@@ -30,7 +30,7 @@ const jwtAuth = expressJwt({
 
 // jwt-token解析
 function decode(token: string) {
-  return jwt.verify(token, systemConfig.PRIVATE_KEY);
+  return jwt.verify(token, systemConfig.PRIVATE_KEY,{ algorithms: ['HS256'] });
 }
 
 export { jwtAuth, decode };
