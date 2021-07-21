@@ -2,7 +2,7 @@
  * @Author: weizheng
  * @Date: 2021-06-29 18:51:23
  * @LastEditors: weizheng
- * @LastEditTime: 2021-07-08 17:05:02
+ * @LastEditTime: 2021-07-21 22:03:47
  */
 import jwt from 'jsonwebtoken';
 import { validationResult, ValidationError } from 'express-validator';
@@ -49,7 +49,11 @@ const login = async (req: Request, res: Response, next: NextFunction) => {
     return;
   }
   // 登陆成功
-  const token = jwt.sign({ username }, PRIVATE_KEY, { expiresIn: JWT_EXPIRED });
+  const token = jwt.sign(
+    { username },
+    PRIVATE_KEY,
+    { expiresIn: JWT_EXPIRED, algorithm: 'HS256' },
+  );
   res.json(
     sendMes(CODE_SUCCESS, '登录成功!', {
       token,
