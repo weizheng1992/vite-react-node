@@ -2,7 +2,7 @@
  * @Author: weizheng
  * @Date: 2021-07-12 17:09:02
  * @LastEditors: weizheng
- * @LastEditTime: 2021-07-21 21:50:47
+ * @LastEditTime: 2021-07-21 21:54:19
  */
 import express from 'express';
 import bodyParser from 'body-parser';
@@ -37,6 +37,7 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
     return next();
   } else {
     try {
+      console.log('token----',token)
       const decoded = decode(token);
       console.log("decoded",decoded)
       req.user = decoded;
