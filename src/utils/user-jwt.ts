@@ -1,8 +1,8 @@
 /*
  * @Author: zz
  * @Date: 2021-07-02 15:08:13
- * @LastEditors: zz
- * @LastEditTime: 2021-07-06 17:16:18
+ * @LastEditors: weizheng
+ * @LastEditTime: 2021-07-21 22:00:32
  */
 import jwt from 'jsonwebtoken'; // 引入验证jsonwebtoken模块
 import expressJwt from 'express-jwt'; // 引入express-jwt模块
@@ -22,6 +22,7 @@ const jwtAuth = expressJwt({
     } else if (req.query && req.query.token) {
       return req.query.token;
     }
+    return null
   },
   // 设置jwt认证白名单，比如/api/login登录接口不需要拦截
 }).unless({
@@ -30,7 +31,7 @@ const jwtAuth = expressJwt({
 
 // jwt-token解析
 function decode(token: string) {
-  return jwt.verify(token, systemConfig.PRIVATE_KEY);
+  return jwt.verify(token, systemConfig.PRIVATE_KEY,{ algorithms: ['HS256'] });
 }
 
 export { jwtAuth, decode };
