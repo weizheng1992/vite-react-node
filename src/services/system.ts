@@ -2,7 +2,7 @@
  * @Author: zz
  * @Date: 2021-06-29 20:30:36
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-08-09 15:53:32
+ * @LastEditTime: 2021-08-09 20:16:41
  */
 
 /**
@@ -29,5 +29,5 @@ export const userNameList = () => {
 
 // 用户列表的删除
 export const userNameDelete = (id: number) => {
-  return `delete * from sys_user where id =${id}`;
+  return `delete * from sys_user where user_id =${id}`;
 };
