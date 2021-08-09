@@ -1,13 +1,13 @@
 /*
  * @Author: zz
  * @Date: 2021-06-28 16:37:28
- * @LastEditors: weizheng
- * @LastEditTime: 2021-07-08 17:24:18
+ * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2021-08-09 16:01:58
  */
 import express from 'express';
 import { validateUserLogin } from '@/middleware/user';
 import { login, register, userList } from '@/controllers/user';
-import { userName } from '@/controllers/system';
+import { userNameSel, userNameDel } from '@/controllers/system';
 
 const router = express.Router();
 
@@ -21,6 +21,9 @@ router.post('/register', validateUserLogin, register);
 router.post('/userList', userList);
 
 // 用户信息查询
-router.post('/sysUserList', userName);
+router.post('/sysUserList', userNameSel);
+
+// 用户信息的删除
+router.post('/sysUserDel', userNameDel);
 
 export default router;
