@@ -1,8 +1,8 @@
 /*
  * @Author: weizheng
  * @Date: 2021-06-28 10:48:47
- * @LastEditors: zz
- * @LastEditTime: 2021-06-29 20:35:42
+ * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2021-08-10 11:03:21
  */
 // 登录接口的查询
 export const logSelect = (user: string, pwd: string) => {
@@ -11,7 +11,8 @@ export const logSelect = (user: string, pwd: string) => {
 
 // 注册接口的插入
 export const regInsert = (user: string, pwd: string) => {
-  return `insert into sys_user(username, password, nickname ,email) values('${user}', '${pwd}','zz1', 'email')`;
+  // return `insert into sys_user(username, password, nickname ,email) values('${user}', '${pwd}','zz1', 'email')`;
+  return `INSERT INTO sys_user (username, password, salt, email, mobile, status, dept_id, create_time) VALUES ('${user}', '${pwd}', 'YzcmCZNvbXocrsz9dm8e', 'root@renren.io', '13612345678', '1', '1', '2021-11-11 11:11:11')`;
 };
 
 // 注册账户的查询

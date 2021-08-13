@@ -1,8 +1,8 @@
 /*
  * @Author: weizheng
  * @Date: 2021-06-29 18:51:23
- * @LastEditors: weizheng
- * @LastEditTime: 2021-07-21 22:03:47
+ * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2021-08-13 16:56:31
  */
 import jwt from 'jsonwebtoken';
 import { validationResult, ValidationError } from 'express-validator';
@@ -14,7 +14,7 @@ import { requestErr } from '@/utils/requestErr';
 import { logSelect, regSelect, regInsert, userListSelect } from '@/services/user';
 import { Request, Response, NextFunction } from 'express';
 import { countSelect } from '@/services/common';
-import { UserInfo } from '@/controllers/model/userModel';
+import { UserInfo, RegisterRes } from '@/controllers/model/userModel';
 
 const { CODE_ERROR, CODE_SUCCESS, PRIVATE_KEY, JWT_EXPIRED } = systemConfig;
 
@@ -49,11 +49,7 @@ const login = async (req: Request, res: Response, next: NextFunction) => {
     return;
   }
   // 登陆成功
-  const token = jwt.sign(
-    { username },
-    PRIVATE_KEY,
-    { expiresIn: JWT_EXPIRED, algorithm: 'HS256' },
-  );
+  const token = jwt.sign({ username }, PRIVATE_KEY, { expiresIn: JWT_EXPIRED, algorithm: 'HS256' });
   res.json(
     sendMes(CODE_SUCCESS, '登录成功!', {
       token,
@@ -75,14 +71,15 @@ const register = async (req: Request, res: Response, next: NextFunction) => {
     return;
   }
   let { username, password } = req.body;
-  // // 查询用户注册
+  // 查询用户注册
   const data: UserInfo[] = await querySql<UserInfo[]>(regSelect(username));
   if (data.length > 0) {
     res.json(sendMes(CODE_ERROR, '用户已存在'));
     return;
   }
   password = md5(password);
-  const registerRes: any = await querySql(regInsert(username, password));
+  const registerRes: RegisterRes = await querySql(regInsert(username, password));
+  console.log('registerRes 99999:>> ', registerRes);
   if (registerRes.affectedRows === 1) {
     res.json(sendMes(CODE_SUCCESS, '注册成功'));
     // 注册完之后登录

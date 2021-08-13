@@ -2,7 +2,7 @@
  * @Author: zz
  * @Date: 2021-06-29 20:30:36
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-08-09 20:16:41
+ * @LastEditTime: 2021-08-13 16:57:56
  */
 
 /**
@@ -14,7 +14,7 @@
  */
 
 // 用户列表的条件查询
-export const userNameSelect = ({ size = 10, page = 1, names = null }: any): any => {
+export const userNameSelect = ({ size = 10, page = 1, names = null }) => {
   const start = (page - 1) * size;
   if (!names) {
     return `select * from sys_user limit ${start},${size}`;
