@@ -35,6 +35,7 @@ export function listToTree<T = any>(list: any[], config: Partial<TreeHelperConfi
   return result;
 }
 
+// 下划线转驼峰
 export function toHumpFun(obj: any) {
   const result: any = Array.isArray(obj) ? [] : {};
   for (const key in obj) {
