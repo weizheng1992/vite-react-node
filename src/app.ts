@@ -1,8 +1,8 @@
 /*
  * @Author: weizheng
  * @Date: 2021-07-12 17:09:02
- * @LastEditors: weizheng
- * @LastEditTime: 2021-07-21 21:54:19
+ * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2021-08-09 19:38:44
  */
 import express from 'express';
 import bodyParser from 'body-parser';
@@ -30,20 +30,19 @@ app.use(cors()); // 注入cors模块解决跨域
 /* 路由 */
 app.use('/', routes);
 
-
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   var token = req.headers['authorization'];
   if (token == undefined) {
     return next();
   } else {
     try {
-      console.log('token----',token)
+      console.log('token----', token);
       const decoded = decode(token);
-      console.log("decoded",decoded)
+      console.log('decoded', decoded);
       req.user = decoded;
       return next();
     } catch (error) {
-      console.log("error-------",error)
+      console.log('error-------', error);
       return next(error);
     }
   }
