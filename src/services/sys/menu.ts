@@ -21,7 +21,7 @@ export const updateMenuSql = ({
   return `UPDATE sys_menu SET name="${name}", url="${url}", icon="${icon}", perms= "${perms}", order_num=${orderNum} WHERE menu_id = ${menuId}`;
 };
 
-// 删除菜单1
+// 删除菜单
 export const delMenuSql = ({ menuId }: MenuDel) => {
   return `DELETE * FROM sys_menu form menu_id= ${menuId}`;
 };
