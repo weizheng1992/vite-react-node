@@ -8,6 +8,7 @@
  */
 import { resolve } from 'path';
 import mysql from 'mysql';
+import { camelizeKeys } from 'humps';
 //连接mysql
 const connection = () => {
   return mysql.createConnection({
@@ -16,11 +17,9 @@ const connection = () => {
     password: process.env.DB_PWD,
     database: process.env.DB_DATABASE,
   });
-}
+};
 
 // connection()
-
-
 
 // const conns = mysql.createConnection({
 //       host: process.env.DB_HOST,
@@ -40,7 +39,7 @@ const querySql = (sql: string) => {
         if (err) {
           reject(err);
         } else {
-          resolve(res);
+          resolve(camelizeKeys(res));
         }
       });
     } catch (e) {
@@ -50,7 +49,7 @@ const querySql = (sql: string) => {
       conn.end();
     }
   });
-}
+};
 
 //查询一条语句
 const queryOne = (sql: string) => {
@@ -59,7 +58,7 @@ const queryOne = (sql: string) => {
       .then((res: any) => {
         console.log('res===', res);
         if (res && res.length > 0) {
-          resolve(res[0]);
+          resolve(camelizeKeys(res[0]));
         } else {
           resolve(null);
         }
@@ -68,7 +67,7 @@ const queryOne = (sql: string) => {
         reject(err);
       });
   });
-}
+};
 
 // // 插入一条语句
 // function insertOne(sql: string) {
