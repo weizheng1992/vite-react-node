@@ -10,7 +10,7 @@ const jwtAuth = expressJwt({
   // 设置为true表示校验，false表示不校验
   credentialsRequired: true,
   // 自定义获取token的函数
-  getToken: (req) => {
+  getToken: (req: any) => {
     if (req.headers.authorization) {
       return req.headers.authorization;
     } else if (req.query && req.query.token) {
@@ -18,13 +18,16 @@ const jwtAuth = expressJwt({
     }
   },
   // 设置jwt认证白名单，比如/api/login登录接口不需要拦截
-}).unless({
-  path: ['/', '/api/login','/api/register'],
 });
+// .unless({
+//   path: ['/', '/api/login', '/api/register'],
+// });
 
 // jwt-token解析
-function decode(req: any) {
-  const token = req.get('Authorization');
+function decode(token: string | undefined) {
+  if (!token) {
+    return null;
+  }
   return jwt.verify(token, systemConfig.PRIVATE_KEY);
 }
 

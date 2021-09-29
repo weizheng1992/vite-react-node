@@ -8,10 +8,24 @@ import express from 'express';
 import { graphqlHTTP } from 'express-graphql';
 import compression from 'compression';
 import cors from 'cors';
-import { ApolloServer, gql } from 'apollo-server-express';
-// import { querySql } from '@/config/config.default';
-// import { regSelect } from '@/services/user';
-import { schema } from './Schema';
+import { schema } from './schema';
+import 'reflect-metadata';
+import { Users } from './entity/User';
+
+import { createConnection } from 'typeorm';
+import { decode } from '@/utils/user-jwt';
+
+createConnection({
+  type: 'mysql',
+  host: 'localhost',
+  port: 3306,
+  username: 'root',
+  password: '123456',
+  database: 'my_test',
+  synchronize: true,
+  logging: false,
+  entities: [Users],
+}).catch((error) => console.log('sss', error));
 
 const app = express();
 
@@ -29,40 +43,52 @@ app.use(
 
 app.use(cors()); // 注入cors模块解决跨域
 
-// const typeDefs = gql`
-//   type Todo {
-//     user_id: Int!
-//     username: String
-//   }
-//   type Query {
-//     hello: String
-//     todo(username: String): Todo
-//   }
-// `;
+/**
+ * Verify token and return either error or valid user profile
+ */
+app.use('/verifyToken', (req, res) => {
+  if (req.method === 'POST') {
+    try {
+      const token = req.headers['authorization'];
+      if (!token) {
+        res.status(401);
+      }
+      const user = decode(token);
+      res.status(200).json({ user });
+    } catch (e: any) {
+      console.log(e.message);
+      res.status(401).json({
+        //unauthorized token
+        message: e.message,
+      });
+    }
+  }
+});
 
-// const resolvers = {
-//   Query: {
-//     hello: () => 'Hello world!',
-//     async todo(parent: any, args: any, context: any, info: any) {
-//       const user: any = await querySql(regSelect(args.username));
-//       console.log(user[0]);
-//       return user[0];
-//     },
-//     // todos:async () => {
-//     //   return await LibTodos.get_items()
-//     // },
-//   },
-// };
-
-// const server = new ApolloServer({ typeDefs, resolvers });
-// server.applyMiddleware({ app });
+//auth middleware
+app.use('/graphql', (req: any, res: any, next: any) => {
+  const token = req.headers['authorization'];
+  if (!token) {
+    res.status(401);
+  }
+  try {
+    req.user = decode(token);
+    next();
+  } catch (e: any) {
+    res.status(401).json({
+      //unauthorized token
+      message: e.message,
+    });
+  }
+});
 
 app.use(
   '/graphql',
-  graphqlHTTP({
+  graphqlHTTP((req) => ({
     schema,
     graphiql: true,
-  })
+    context: () => decode(req.headers['authorization']),
+  }))
 );
 
 export default app;

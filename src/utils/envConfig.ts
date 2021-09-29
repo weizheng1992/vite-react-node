@@ -13,7 +13,7 @@ export function getEnvConfig(confFiles = ['.env', '.env.production']) {
     try {
       const env = dotenv.parse(fs.readFileSync(path.resolve(process.cwd(), item)));
 
-  console.log('^^^^^^^^^^^^^^^^^^^', item);
+      console.log('^^^^^^^^^^^^^^^^^^^', item);
       envConfig = { ...envConfig, ...env };
     } catch (error) {}
   });
