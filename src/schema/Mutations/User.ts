@@ -41,7 +41,7 @@ export const UPDATE_PASSWORD = {
     } else {
       throw new Error('旧密码不匹对!');
     }
-    return { successful: true, message: '修改密码成功' };
+    return { success: true, message: '修改密码成功' };
   },
 };
 

@@ -1,32 +1,31 @@
-import { GraphQLList, GraphQLString } from 'graphql';
-import { UserType, LoginType } from '../TypeDefs/User';
-import { MessageType } from '../TypeDefs/Messages';
-import { queryOne, querySql } from '@/config/config.default';
-import { regSelect } from '@/services/user';
+import { GraphQLString, GraphQLInt } from 'graphql';
+import { LoginType, UserLimitType } from '../TypeDefs/User';
 import { Users } from '@/entity/User';
-import { hash, compare } from 'bcryptjs';
+import { compare } from 'bcryptjs';
 import jsonwebtoken from 'jsonwebtoken';
 import { systemConfig } from '@/config/index';
 
 export const GET_ALL_USERS = {
-  type: new GraphQLList(UserType),
+  type: UserLimitType,
   // type: UserType,
   args: {
-    username: { type: GraphQLString },
+    page: { type: GraphQLInt },
+    size: { type: GraphQLInt },
   },
   async resolve(_: any, args: any, context: any) {
     const tokenUser = context();
     if (!tokenUser) {
       throw new Error('用户未登录!');
     }
-    const { username } = args;
-    const user = await Users.find(username);
-    return user;
+    const { page, size } = args;
+    // const user = await Users.find({ take: page * size, skip: (page - 1) * size });
+    const [user, number] = await Users.findAndCount({ take: page * size, skip: (page - 1) * size });
+    return { total: number, list: user };
   },
 };
 
 export const LOGIN = {
-  type: LoginType || MessageType,
+  type: LoginType,
   args: {
     username: { type: GraphQLString },
     password: { type: GraphQLString },

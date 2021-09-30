@@ -24,7 +24,7 @@ createConnection({
   database: 'my_test',
   synchronize: true,
   logging: false,
-  entities: [Users],
+  entities: ['src/entity/**/*.ts'],
 }).catch((error) => console.log('sss', error));
 
 const app = express();

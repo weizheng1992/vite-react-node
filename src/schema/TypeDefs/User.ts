@@ -1,4 +1,4 @@
-import { GraphQLObjectType, GraphQLID, GraphQLString } from 'graphql';
+import { GraphQLObjectType, GraphQLID, GraphQLString, GraphQLInt, GraphQLList } from 'graphql';
 
 export const UserType = new GraphQLObjectType({
   name: 'User',
@@ -18,5 +18,13 @@ export const LoginType = new GraphQLObjectType({
     mobile: { type: GraphQLString },
     password: { type: GraphQLString },
     token: { type: GraphQLString },
+  }),
+});
+
+export const UserLimitType = new GraphQLObjectType({
+  name: 'UserLimit',
+  fields: () => ({
+    total: { type: GraphQLInt },
+    list: { type: new GraphQLList(UserType) },
   }),
 });
