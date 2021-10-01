@@ -1,4 +1,5 @@
 import { GraphQLString, GraphQLInt } from 'graphql';
+import { Not, IsNull } from 'typeorm';
 import { LoginType, UserLimitType } from '../TypeDefs/User';
 import { Users } from '@/entity/User';
 import { compare } from 'bcryptjs';
@@ -20,6 +21,28 @@ export const GET_ALL_USERS = {
     const { page, size } = args;
     // const user = await Users.find({ take: page * size, skip: (page - 1) * size });
     const [user, number] = await Users.findAndCount({ take: page * size, skip: (page - 1) * size });
+    return { total: number, list: user };
+  },
+};
+
+export const GET_USER_LIMIT = {
+  type: UserLimitType,
+  args: {
+    page: { type: GraphQLInt },
+    size: { type: GraphQLInt },
+    username: { type: GraphQLString },
+  },
+  async resolve(_: any, args: any, context: any) {
+    const tokenUser = context();
+    if (!tokenUser) {
+      throw new Error('用户未登录!');
+    }
+    const { page, size, username } = args;
+    const [user, number] = await Users.findAndCount({
+      take: page * size,
+      skip: (page - 1) * size,
+      where: { username },
+    });
     return { total: number, list: user };
   },
 };

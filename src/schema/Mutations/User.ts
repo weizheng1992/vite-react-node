@@ -45,15 +45,15 @@ export const UPDATE_PASSWORD = {
   },
 };
 
-// export const DELETE_USER = {
-//   type: MessageType,
-//   args: {
-//     id: { type: GraphQLID },
-//   },
-//   async resolve(parent: any, args: any) {
-//     const id = args.id;
-//     await Users.delete(id);
+export const DELETE_USER = {
+  type: MessageType,
+  args: {
+    id: { type: GraphQLID },
+  },
+  async resolve(parent: any, args: any) {
+    const id = args.id;
+    await Users.delete(id);
 
-//     return { successful: true, message: 'DELETE WORKED' };
-//   },
-// };
+    return { success: true, message: '删除成功' };
+  },
+};
