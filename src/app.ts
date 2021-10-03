@@ -1,16 +1,31 @@
 /*
  * @Author: weizheng
- * @Date: 2021-07-12 17:09:02
- * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-08-09 19:38:44
+ * @Date: 2021-06-17 15:47:05
+ * @LastEditors: weizheng
+ * @LastEditTime: 2021-07-12 17:07:16
  */
 import express from 'express';
-import bodyParser from 'body-parser';
-import { Request, Response, NextFunction } from 'express';
+import { graphqlHTTP } from 'express-graphql';
 import compression from 'compression';
-import routes from '@/routes';
 import cors from 'cors';
-import { jwtAuth, decode } from '@/utils/user-jwt';
+import { schema } from './schema';
+import 'reflect-metadata';
+import { Users } from './entity/User';
+
+import { createConnection } from 'typeorm';
+import { decode } from '@/utils/user-jwt';
+
+createConnection({
+  type: 'mysql',
+  host: 'localhost',
+  port: 3306,
+  username: 'root',
+  password: '123456',
+  database: 'my_test',
+  synchronize: true,
+  logging: false,
+  entities: ['src/entity/**/*.ts'],
+}).catch((error) => console.log('sss', error));
 
 const app = express();
 
@@ -27,53 +42,59 @@ app.use(
 );
 
 app.use(cors()); // 注入cors模块解决跨域
-/* 路由 */
-app.use('/', routes);
 
-app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
-  var token = req.headers['authorization'];
-  if (token == undefined) {
-    return next();
-  } else {
+/**
+ * Verify token and return either error or valid user profile
+ */
+app.use('/verifyToken', (req, res) => {
+  if (req.method === 'POST') {
     try {
-      console.log('token----', token);
-      const decoded = decode(token);
-      console.log('decoded', decoded);
-      req.user = decoded;
-      return next();
-    } catch (error) {
-      console.log('error-------', error);
-      return next(error);
+      const token = req.headers['authorization'];
+      if (!token) {
+        res.status(401);
+      }
+      const user = decode(token);
+      res.status(200).json({ user });
+    } catch (e: any) {
+      console.log(e.message);
+      res.status(401).json({
+        //unauthorized token
+        message: e.message,
+      });
     }
   }
 });
 
-// 自定义统一异常处理中间件，需要放在代码最后
-app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
-  // 自定义用户认证失败的错误返回
-  console.log('err===', err);
-  if (err && err.name === 'UnauthorizedError') {
-    // 抛出401异常
-    res.status(401).json({
-      code: 401,
-      msg: 'token失效，请重新登录',
-      data: null,
-    });
-  } else if (err && err.name === 'TokenExpiredError') {
-    // 抛出401异常
-    res.status(401).json({
-      code: 401,
-      msg: 'token失效，请重新登录',
-      data: null,
-    });
-  } else {
-    // 错误码和错误信息
-    const errCode = 500;
-    const errMsg = err.message;
-    res.status(errCode).json({
-      code: errCode,
-      msg: errMsg,
-    });
+//auth middleware
+app.use('/graphql', (req: any, res: any, next: any) => {
+  // console.log(',,,,', req);
+  const token = req.headers['authorization'];
+  if (!token) {
+    // res.status(401);
+    req.user = false;
+  }
+  try {
+    req.user = decode(token);
+    next();
+  } catch (e: any) {
+    req.user = false;
+    // res.status(401).json({
+    //   //unauthorized token
+    //   message: e.message,
+    // });
   }
 });
+
+app.use(
+  '/graphql',
+  graphqlHTTP((req) => ({
+    schema,
+    graphiql: true,
+    context: () => decode(req.headers['authorization']),
+    customFormatErrorFn: (err: any) => ({
+      message: err.originalError.message || err.message,
+      code: err.originalError.code || 500,
+    }),
+  }))
+);
 export default app;

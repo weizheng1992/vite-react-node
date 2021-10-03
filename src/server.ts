@@ -1,6 +1,5 @@
 import app from './app';
 
-
 import { getEnvConfig } from './utils/envConfig';
 console.log('111111111111111', process.env.NODE_ENV);
 getEnvConfig([`.env.${process.env.NODE_ENV}`]);

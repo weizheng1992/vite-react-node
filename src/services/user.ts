@@ -16,8 +16,8 @@ export const regInsert = (user: string, pwd: string) => {
 };
 
 // 注册账户的查询
-export const regSelect = (user: string) => {
-  return `select * from sys_user where username='${user}'`;
+export const regSelect = (username: string) => {
+  return `select * from sys_user where username='${username}'`;
 };
 
 /**
@@ -27,7 +27,16 @@ export const regSelect = (user: string) => {
  * @param {number} page 开始 1
  * @return {*}
  */
-export const userListSelect = (page: number, size = 10): string => {
-  const min = (page - 1) * size;
-  return `select * from sys_user limit ${min},${size}`;
+export const userListSelect = (size = 10, page: number): string => {
+  return `select * from student limit(${page}-1)*${size},${size}`;
+};
+
+// 注册账户的查询
+export const selectUserById = (userId: number): string => {
+  return `select * from sys_user where user_id='${userId}'`;
+};
+
+// 更新名字
+export const updataName = (username: string, userId: number): string => {
+  return `UPDATE sys_user SET username = '${username}' where user_id = ${userId}`;
 };
