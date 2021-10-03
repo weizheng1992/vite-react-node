@@ -67,18 +67,21 @@ app.use('/verifyToken', (req, res) => {
 
 //auth middleware
 app.use('/graphql', (req: any, res: any, next: any) => {
+  // console.log(',,,,', req);
   const token = req.headers['authorization'];
   if (!token) {
-    res.status(401);
+    // res.status(401);
+    req.user = false;
   }
   try {
     req.user = decode(token);
     next();
   } catch (e: any) {
-    res.status(401).json({
-      //unauthorized token
-      message: e.message,
-    });
+    req.user = false;
+    // res.status(401).json({
+    //   //unauthorized token
+    //   message: e.message,
+    // });
   }
 });
 
@@ -88,6 +91,10 @@ app.use(
     schema,
     graphiql: true,
     context: () => decode(req.headers['authorization']),
+    customFormatErrorFn: (err: any) => ({
+      message: err.originalError.message || err.message,
+      code: err.originalError.code || 500,
+    }),
   }))
 );
 
