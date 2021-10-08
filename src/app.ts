@@ -71,6 +71,7 @@ app.use('/graphql', (req: any, res: any, next: any) => {
   if (!token) {
     // res.status(401);
     req.user = false;
+    next();
   }
   try {
     req.user = decode(token);
