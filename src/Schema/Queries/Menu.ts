@@ -14,6 +14,7 @@ export const GET_MENUS = {
     if (!tokenUser) {
       throw new Error('用户未登录!');
     }
+    console.log('ssssss');
     const menus = await Menus.find();
     return menus;
   },
