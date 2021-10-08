@@ -21,6 +21,7 @@
     "@types/express-jwt": "^6.0.2",
     "@types/humps": "^2.0.1",
     "@types/jsonwebtoken": "^8.5.1",
+    "@types/lodash-es": "^4.17.4",
     "@types/mysql": "^2.15.18",
     "@typescript-eslint/eslint-plugin": "^4.27.0",
     "@typescript-eslint/parser": "^4.27.0",

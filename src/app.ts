@@ -10,7 +10,6 @@ import compression from 'compression';
 import cors from 'cors';
 import { schema } from './schema';
 import 'reflect-metadata';
-import { Users } from './entity/User';
 
 import { createConnection } from 'typeorm';
 import { decode } from '@/utils/user-jwt';
@@ -97,5 +96,4 @@ app.use(
     }),
   }))
 );
-
 export default app;

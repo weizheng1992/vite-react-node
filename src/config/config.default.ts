@@ -29,7 +29,7 @@ const connection = () => {
 //     });
 
 //新建查询连接
-const querySql = (sql: string) => {
+export function querySql<T = any>(sql: string): Promise<T> {
   const conn = connection();
   // const conn = conns.connect();
   // console.log('conn :>> ', conn);
@@ -52,15 +52,15 @@ const querySql = (sql: string) => {
 };
 
 //查询一条语句
-const queryOne = (sql: string) => {
+export function queryOne<T = any>(sql: string): Promise<T> {
   return new Promise((resolve, reject) => {
-    querySql(sql)
+    querySql<T>(sql)
       .then((res: any) => {
         console.log('res===', res);
         if (res && res.length > 0) {
           resolve(camelizeKeys(res[0]));
         } else {
-          resolve(null);
+          resolve(res);
         }
       })
       .catch((err) => {
@@ -75,5 +75,3 @@ const queryOne = (sql: string) => {
 
 //   })
 // }
-
-export { querySql, queryOne };
