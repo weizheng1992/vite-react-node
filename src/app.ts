@@ -65,25 +65,25 @@ app.use('/verifyToken', (req, res) => {
 });
 
 //auth middleware
-app.use('/graphql', (req: any, res: any, next: any) => {
-  // console.log(',,,,', req);
-  const token = req.headers['authorization'];
-  if (!token) {
-    // res.status(401);
-    req.user = false;
-    next();
-  }
-  try {
-    req.user = decode(token);
-    next();
-  } catch (e: any) {
-    req.user = false;
-    // res.status(401).json({
-    //   //unauthorized token
-    //   message: e.message,
-    // });
-  }
-});
+// app.use('/graphql', (req: any, res: any, next: any) => {
+//   // console.log(',,,,', req);
+//   const token = req.headers['authorization'];
+//   if (!token) {
+//     // res.status(401);
+//     req.user = false;
+//     next();
+//   }
+//   try {
+//     req.user = decode(token);
+//     next();
+//   } catch (e: any) {
+//     req.user = false;
+//     // res.status(401).json({
+//     //   //unauthorized token
+//     //   message: e.message,
+//     // });
+//   }
+// });
 
 app.use(
   '/graphql',
